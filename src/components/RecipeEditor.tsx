@@ -107,8 +107,6 @@ export function RecipeEditor({ recipe, isSaving = false, onSave, onBack }: Recip
   }
 
   const recalculateFromFlour = (newFlourWeight: number) => {
-    if (newFlourWeight <= 0) return
-    
     setIngredients(prev => prev.map(ing => {
       if (ing.isFlour) {
         return { ...ing, weight: newFlourWeight }
@@ -148,7 +146,7 @@ export function RecipeEditor({ recipe, isSaving = false, onSave, onBack }: Recip
 
   const handleTotalMassChange = (value: number) => {
     setTotalMass(value)
-    if (value > 0 && totalPercentage > 0) {
+    if (totalPercentage > 0) {
       recalculateFromTotal(value)
     }
   }
@@ -344,7 +342,7 @@ export function RecipeEditor({ recipe, isSaving = false, onSave, onBack }: Recip
             onChange={(e) => setName(e.target.value)}
             placeholder="Ej: Pan sourdough casero"
             disabled={!isEditingRecipe}
-            className="w-full px-.5 bg-[3 py-2var(--bg-inset)] border border-transparent rounded-[var(--radius-md)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--border-focus)] focus:bg-[var(--bg-surface)] transition-all text-base disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full px-3 py-2.5 bg-[var(--bg-inset)] border border-transparent rounded-[var(--radius-md)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--border-focus)] focus:bg-[var(--bg-surface)] transition-all text-base disabled:opacity-70 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -358,9 +356,10 @@ export function RecipeEditor({ recipe, isSaving = false, onSave, onBack }: Recip
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="p-3 bg-[var(--accent-soft)] rounded-[var(--radius-md)]">
-              <label className="block text-xs font-semibold text-[var(--accent-primary)] mb-2">
+          {!isNewRecipe && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <div className="p-2 sm:p-3 bg-[var(--accent-soft)] rounded-[var(--radius-md)]">
+              <label className="block text-xs font-semibold text-[var(--accent-primary)] mb-1 sm:mb-2">
                 Total de masa
               </label>
               <div className="flex gap-1 items-center">
@@ -369,14 +368,14 @@ export function RecipeEditor({ recipe, isSaving = false, onSave, onBack }: Recip
                   value={totalMass || ''}
                   onChange={(e) => handleTotalMassChange(Number(e.target.value))}
                   placeholder="0"
-                  className="flex-1 px-2 py-2 bg-[var(--bg-surface)] border border-[var(--border-default)] rounded-[var(--radius-sm)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--border-focus)] transition-all font-mono font-semibold text-sm"
+                  className="flex-1 px-1.5 py-1.5 sm:py-2 bg-[var(--bg-surface)] border border-[var(--border-default)] rounded-[var(--radius-sm)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--border-focus)] transition-all font-mono font-semibold text-xs sm:text-sm"
                 />
-                <span className="text-[var(--text-secondary)] text-sm font-medium">g</span>
+                <span className="text-[var(--text-secondary)] text-xs sm:text-sm font-medium">g</span>
               </div>
             </div>
             
-            <div className="p-3 bg-[var(--accent-soft)] rounded-[var(--radius-md)]">
-              <label className="block text-xs font-semibold text-[var(--accent-primary)] mb-2">
+            <div className="p-2 sm:p-3 bg-[var(--accent-soft)] rounded-[var(--radius-md)]">
+              <label className="block text-xs font-semibold text-[var(--accent-primary)] mb-1 sm:mb-2">
                 Harina
               </label>
               <div className="flex gap-1 items-center">
@@ -385,12 +384,13 @@ export function RecipeEditor({ recipe, isSaving = false, onSave, onBack }: Recip
                   value={flourWeight || ''}
                   onChange={(e) => handleFlourWeightChange(Number(e.target.value))}
                   placeholder="0"
-                  className="flex-1 px-2 py-2 bg-[var(--bg-surface)] border border-[var(--border-default)] rounded-[var(--radius-sm)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--border-focus)] transition-all font-mono font-semibold text-sm"
+                  className="flex-1 px-1.5 py-1.5 sm:py-2 bg-[var(--bg-surface)] border border-[var(--border-default)] rounded-[var(--radius-sm)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--border-focus)] transition-all font-mono font-semibold text-xs sm:text-sm"
                 />
-                <span className="text-[var(--text-secondary)] text-sm font-medium">g</span>
+                <span className="text-[var(--text-secondary)] text-xs sm:text-sm font-medium">g</span>
               </div>
             </div>
           </div>
+          )}
 
           {flourIngredients.length > 0 && totalPercentage > 0 && (
             <div className="mb-4 pb-4 border-b border-[var(--border-default)]">
