@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRecipes } from './hooks/useRecipes'
 import { RecipeList } from './components/RecipeList'
 import { RecipeEditor } from './components/RecipeEditor'
+import { InstallBanner } from './components/InstallBanner'
 import type { RecipeWithIngredients } from './types'
 
 type View = 'list' | 'edit' | 'new'
@@ -76,6 +77,8 @@ function App() {
           onBack={handleBack}
         />
       )}
+
+      <InstallBanner />
     </div>
   )
 }
